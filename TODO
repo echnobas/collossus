@@ -1,0 +1,5 @@
+a. Implement the User struct
+b. Implement the owner field in the Group struct
+c. Implement remaining client methods
+d. Implement all group methods
+e. Fix my lazy error handling, nobody wants random panics
