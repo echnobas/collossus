@@ -1,3 +1,4 @@
+use crate::user::User;
 use reqwest::blocking::Client as HttpClient;
 #[derive(Debug)]
 pub struct Group {
@@ -6,7 +7,7 @@ pub struct Group {
     group_id: u32,
     group_name: String,
     group_description: String,
-    // owner: Option<User>
+    owner: Option<User>,
 }
 
 impl Group {
@@ -14,16 +15,28 @@ impl Group {
         group_id: u32,
         group_name: String,
         group_description: String,
+        owner_id: Option<u32>,
+        owner_username: Option<String>,
         http_client: HttpClient,
         cookie: String,
     ) -> Self {
         // TODO: Add parameters Option<String> for owner username and Option<u32> for owner userid then create user object from that info
+        let mut owner = None;
+        if owner_id.is_some() && owner_username.is_some() {
+            owner = Some(User::new(
+                owner_id.unwrap(),
+                owner_username.unwrap(),
+                http_client.clone(),
+                cookie.clone(),
+            ));
+        }
         Self {
             group_id,
             cookie,
             group_name,
             group_description,
             http_client,
+            owner,
         }
     }
 
